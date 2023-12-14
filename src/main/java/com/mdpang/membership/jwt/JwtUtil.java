@@ -1,6 +1,6 @@
-package jwt;
+package com.mdpang.membership.jwt;
 
-import entity.UserRoleEnum;
+import com.mdpang.membership.entity.UserRoleEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -18,15 +18,13 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.Logger;
-import org.mapstruct.ap.shaded.freemarker.template.utility.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 
 @Slf4j
-@Component
+//@Component
 public class JwtUtil {
 
     // JWT 데이터

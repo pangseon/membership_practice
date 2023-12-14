@@ -1,4 +1,4 @@
-package entity;
+package com.mdpang.membership.entity;
 
 public enum UserRoleEnum {
     USER(Authority.USER),
@@ -19,3 +19,5 @@ public enum UserRoleEnum {
     }
 
 }
+
+
