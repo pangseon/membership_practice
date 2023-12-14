@@ -19,7 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signup")
+    @PostMapping
     public ResponseEntity<CommonResponseDto> signup(@Valid @RequestBody UserSignUpReq req) {
         try {
             userService.saveUser(req);
