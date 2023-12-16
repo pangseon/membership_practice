@@ -2,7 +2,10 @@ package com.mdpang.membership.service;
 
 
 import com.mdpang.membership.dto.CommonResponseDto;
+import com.mdpang.membership.dto.request.UserLoginReq;
 import com.mdpang.membership.dto.request.UserSignUpReq;
+import com.mdpang.membership.dto.response.UserLoginRes;
+import com.mdpang.membership.dto.response.UserSignUpRes;
 import com.mdpang.membership.repository.UserRepository;
 import com.mdpang.membership.entity.UserEntity;
 import lombok.Builder;
@@ -20,7 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public CommonResponseDto saveUser(UserSignUpReq req) {
+    public UserSignUpRes saveUser(UserSignUpReq req) {
         if (req.getUsername().equals(userRepository.findByUsername(req.getUsername()))){
             throw new IllegalArgumentException("이미 존재하는 회원입니다");
         }
@@ -29,6 +32,21 @@ public class UserService {
                 .username(req.getUsername())
                 .password(passwordEncoder.encode(req.getPassword()))
                 .build()));
+
+    }
+    public UserLoginRes LoginUser(UserLoginReq req){
+        UserEntity user = userRepository.findByUsername(req.getUsername());
+        if (user==null){
+            throw new IllegalArgumentException(
+                "등록된 유저가 없습니다."
+            );
+        }
+        else if (!passwordEncoder.matches(req.getPassword(), user.getPassword())){
+            throw new IllegalArgumentException(
+                "비밀번호가 일치하지 않습니다"
+            );
+        }
+        return UserMapper.INSTANCE.toUserLoginGetRes(user);
 
     }
 
@@ -42,7 +60,10 @@ public class UserService {
 
         UserService.UserMapper INSTANCE = Mappers.getMapper(UserService.UserMapper.class);
 
-        CommonResponseDto toUserSaveGetRes(UserEntity userEntity);
+        UserSignUpRes toUserSaveGetRes(UserEntity userEntity);
+
+        UserLoginRes toUserLoginGetRes(UserEntity userEntity);
+
     }
 
 }
